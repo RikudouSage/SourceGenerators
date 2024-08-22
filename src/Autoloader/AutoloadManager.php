@@ -5,6 +5,9 @@ namespace Rikudou\SourceGenerators\Autoloader;
 use Closure;
 use Rikudou\SourceGenerators\Exception\IOException;
 
+/**
+ * @internal
+ */
 final readonly class AutoloadManager
 {
     public function __construct(

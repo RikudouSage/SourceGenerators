@@ -12,6 +12,9 @@ use Composer\Script\ScriptEvents;
 use Rikudou\SourceGenerators\Processor\SourceGeneratorProcessor;
 use Rikudou\SourceGenerators\Processor\SourceGeneratorProcessorFactory;
 
+/**
+ * @internal
+ */
 final class ComposerPlugin implements PluginInterface, EventSubscriberInterface
 {
     private ?SourceGeneratorProcessor $processor = null;

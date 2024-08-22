@@ -8,6 +8,9 @@ use Rikudou\SourceGenerators\Autoloader\TargetClassMapManager;
 use Rikudou\SourceGenerators\Dto\ClassSource;
 use Rikudou\SourceGenerators\Exception\IOException;
 
+/**
+ * @internal
+ */
 final readonly class NewSourceProcessor
 {
     private PrettyPrinter $dumper;

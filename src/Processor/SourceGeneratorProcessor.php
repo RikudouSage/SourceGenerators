@@ -13,6 +13,9 @@ use Rikudou\SourceGenerators\Extractor\Psr4Rule;
 use Rikudou\SourceGenerators\Service\DirectoryManager;
 use Rikudou\SourceGenerators\Service\SourceClassMapManager;
 
+/**
+ * @internal
+ */
 final readonly class SourceGeneratorProcessor
 {
     public AutoloadManager $autoloadManager;
@@ -101,90 +104,5 @@ final readonly class SourceGeneratorProcessor
         $this->attributeCleaner->process($partialClasses);
 
         $this->autoloadManager->dumpCustomAutoloader();
-
-//        $parser = (new ParserFactory())->createForNewestSupportedVersion();
-//        foreach ($partialClasses as $partialClass) {
-//            $methods = array_filter($implementedMethods, fn (array $method) => $method['class'] === $partialClass->getName());
-//            $properties = array_filter($implementedProperties, fn (array $property) => $property['class'] === $partialClass->getName());
-//
-//            $fileName = $partialClass->getShortName() . '_' . hash('sha512', serialize($methods) . serialize($properties)) . '.php';
-//            $filePath = "{$this->targetDirectory}/{$fileName}";
-//            copy($partialClass->getFileName(), $filePath);
-//
-//            $ast = $parser->parse(file_get_contents($filePath));
-//            $traverser = new NodeTraverser(
-//                new NameResolver(),
-//                new class(
-//                    $properties,
-//                    $this->hasAttribute(...),
-//                    $this->getPropertyName(...),
-//                ) extends NodeVisitorAbstract {
-//                    public function __construct(
-//                        private array            &$properties,
-//                        private readonly Closure $hasAttribute,
-//                        private readonly Closure $getPropertyName,
-//                    ) {
-//                    }
-//
-//                    public function enterNode(Node $node): null
-//                    {
-//                        if (count($this->properties) && $node instanceof Node\Stmt\Property && ($this->hasAttribute)($node, PartialProperty::class)) {
-//                            /** @var array<array{class: class-string, name: string, type: string, defaultValue: string|null}> $implementedProperties */
-//                            $name = ($this->getPropertyName)($node);
-//                            foreach ($this->properties as $key => $property) {
-//                                if ($property['name'] !== $name) {
-//                                    continue;
-//                                }
-//
-//                                $node->type = new Node\Identifier($property['type']);
-//                                if ($property['defaultValue'] !== null) {
-//                                    $node->props[0]->default = $this->toExpression($property['defaultValue']);
-//                                }
-//
-//                                unset($this->properties[$key]);
-//                                break;
-//                            }
-//                        }
-//
-//                        return null;
-//                    }
-//
-//                    private function toExpression(Expr|string|bool|int|float|array $value): Expr
-//                    {
-//                        if ($value instanceof Expr) {
-//                            return $value;
-//                        }
-//
-//                        if (is_string($value)) {
-//                            return new Node\Scalar\String_($value);
-//                        }
-//                        if (is_bool($value)) {
-//                            return new Expr\ConstFetch(new Node\Name($value ? 'true' : 'false'));
-//                        }
-//                        if (is_int($value)) {
-//                            return new Node\Scalar\Int_($value);
-//                        }
-//                        if (is_float($value)) {
-//                            return new Node\Scalar\Float_($value);
-//                        }
-//                        if (is_array($value)) {
-//                            $items = [];
-//                            foreach ($value as $key => $item) {
-//                                $items[] = new Node\ArrayItem($this->toExpression($item), $this->toExpression($key));
-//                            }
-//                            return new Expr\Array_($items);
-//                        }
-//
-//                        throw new LogicException('Could not conver type to expression: ' . gettype($value));
-//                    }
-//                }
-//            );
-//            $ast = $traverser->traverse($ast);
-//
-//            $prettyPrinter = new Standard();
-//            file_put_contents($filePath, $prettyPrinter->prettyPrintFile($ast));
-//
-//            $classMap[$partialClass->getName()] = $filePath;
-//        }
     }
 }

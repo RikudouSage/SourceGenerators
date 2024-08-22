@@ -4,6 +4,9 @@ namespace Rikudou\SourceGenerators\Service;
 
 use Rikudou\SourceGenerators\Exception\IOException;
 
+/**
+ * @internal
+ */
 final readonly class DirectoryManager
 {
     public function __construct(

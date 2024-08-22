@@ -23,6 +23,9 @@ use Rikudou\SourceGenerators\Exception\IOException;
 use Rikudou\SourceGenerators\Exception\NonPartialMethodException;
 use Rikudou\SourceGenerators\Parser\ParserHelper;
 
+/**
+ * @internal
+ */
 final readonly class MethodProcessor
 {
     private PrettyPrinter $dumper;

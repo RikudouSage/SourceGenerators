@@ -20,6 +20,9 @@ use Rikudou\SourceGenerators\Exception\UnimplementedPartialClassException;
 use Rikudou\SourceGenerators\Exception\UnimplementedPropertyException;
 use Rikudou\SourceGenerators\Parser\ParserHelper;
 
+/**
+ * @internal
+ */
 final readonly class PartialAttributeCleanerProcessor
 {
     private PrettyPrinter $dumper;

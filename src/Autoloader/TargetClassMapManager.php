@@ -2,6 +2,9 @@
 
 namespace Rikudou\SourceGenerators\Autoloader;
 
+/**
+ * @internal
+ */
 final class TargetClassMapManager
 {
     /**

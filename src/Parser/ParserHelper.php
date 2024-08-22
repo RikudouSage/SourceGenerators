@@ -6,6 +6,9 @@ use LogicException;
 use PhpParser\Node;
 use PhpParser\Node\AttributeGroup;
 
+/**
+ * @internal
+ */
 final readonly class ParserHelper
 {
     /**

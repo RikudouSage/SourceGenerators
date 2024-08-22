@@ -6,6 +6,9 @@ use DirectoryIterator;
 use Rikudou\SourceGenerators\Extractor\Psr4Rule;
 use SplFileInfo;
 
+/**
+ * @internal
+ */
 final readonly class SourceClassMapManager
 {
     public array $classMap;

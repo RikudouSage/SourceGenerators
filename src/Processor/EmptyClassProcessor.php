@@ -6,6 +6,9 @@ use ReflectionClass;
 use Rikudou\SourceGenerators\Autoloader\TargetClassMapManager;
 use Rikudou\SourceGenerators\Exception\IOException;
 
+/**
+ * @internal
+ */
 final readonly class EmptyClassProcessor
 {
     public function __construct(

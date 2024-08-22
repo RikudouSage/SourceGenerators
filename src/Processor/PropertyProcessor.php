@@ -22,6 +22,9 @@ use Rikudou\SourceGenerators\Dto\PropertyImplementation;
 use Rikudou\SourceGenerators\Exception\IOException;
 use Rikudou\SourceGenerators\Parser\ParserHelper;
 
+/**
+ * @internal
+ */
 final readonly class PropertyProcessor
 {
     private PrettyPrinter $dumper;
