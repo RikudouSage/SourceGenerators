@@ -1,6 +1,7 @@
 {
   "name": "rikudou/source-generators",
   "type": "composer-plugin",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Rikudou\\SourceGenerators\\": "src/"
