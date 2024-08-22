@@ -15,7 +15,7 @@ final readonly class PropertyImplementation
     public function __construct(
         public string                                $class,
         public string                                $name,
-        public string                                $type = 'mixed',
+        public ?string                               $type = null,
         public Expr|null|string|bool|int|float|array $defaultValue = null,
         #[ExpectedValues(flagsFromClass: Modifiers::class)]
         public ?int $flags = null,

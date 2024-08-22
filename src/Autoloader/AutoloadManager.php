@@ -40,14 +40,14 @@ final readonly class AutoloadManager
         return <<<EOF
         <?php
         
-        \$classMap = {$exportedClassMap};
+        \$rikudouSourceGeneratorsClassMap = {$exportedClassMap};
         
-        spl_autoload_register(function (string \$className) use (&\$classMap) {
-            if (!isset(\$classMap[\$className])) {
+        spl_autoload_register(function (string \$className) use (&\$rikudouSourceGeneratorsClassMap) {
+            if (!isset(\$rikudouSourceGeneratorsClassMap[\$className])) {
                 return;
             }
             
-            require_once(\$classMap[\$className]);
+            require_once(\$rikudouSourceGeneratorsClassMap[\$className]);
         }, prepend: true);
         EOF;
     }

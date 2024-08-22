@@ -56,7 +56,7 @@ final readonly class SourceGeneratorProcessor
             $this->sourceClassMapManager->classMap,
             fn (string $class) => is_a($class, SourceGenerator::class, true),
         );
-        if (!count($sourceGenerators)) {
+        if (!count($sourceGenerators)) { // todo still make it run to check for unimplemented partial classes
             return;
         }
 
