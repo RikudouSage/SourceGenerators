@@ -10,3 +10,5 @@ require_once $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 $processor = SourceGeneratorProcessorFactory::fromComposerJson(Factory::getComposerFile());
 $processor->execute();
 $processor->autoloadManager->registerAutoloader();
+
+echo "Source generators have been executed and autoloader has been dumped.", PHP_EOL;
