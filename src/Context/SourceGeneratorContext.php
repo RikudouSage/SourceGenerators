@@ -81,6 +81,15 @@ final class SourceGeneratorContext implements Context
         return $this->allClasses;
     }
 
+    public function findClass(string $class): ?ReflectionClass
+    {
+        if (class_exists($class)) {
+            return new ReflectionClass($class);
+        }
+
+        return null;
+    }
+
     public function addClassSource(ClassSource $source): void
     {
         if (class_exists("{$source->namespace}\\{$source->class}")) {

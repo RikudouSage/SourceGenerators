@@ -41,6 +41,14 @@ interface Context
     public function getAllClasses(): iterable;
 
     /**
+     * @template T of object
+     *
+     * @param class-string<T> $class
+     * @return ReflectionClass<T>|null
+     */
+    public function findClass(string $class): ?ReflectionClass;
+
+    /**
      * You can use %className% in the $content, and it will be replaced with the class name you provide in $name.
      *
      * @throws ClassExistsException
