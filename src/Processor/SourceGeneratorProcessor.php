@@ -13,9 +13,6 @@ use Rikudou\SourceGenerators\Extractor\Psr4Rule;
 use Rikudou\SourceGenerators\Service\DirectoryManager;
 use Rikudou\SourceGenerators\Service\SourceClassMapManager;
 
-/**
- * @internal
- */
 final readonly class SourceGeneratorProcessor
 {
     public AutoloadManager $autoloadManager;
@@ -56,9 +53,6 @@ final readonly class SourceGeneratorProcessor
             $this->sourceClassMapManager->classMap,
             fn (string $class) => is_a($class, SourceGenerator::class, true),
         );
-        if (!count($sourceGenerators)) { // todo still make it run to check for unimplemented partial classes
-            return;
-        }
 
         /** @var ReflectionClass[] $reflections */
         $reflections = array_filter(array_map(
