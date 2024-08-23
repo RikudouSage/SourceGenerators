@@ -76,6 +76,11 @@ final class SourceGeneratorContext implements Context
         return Iterables::filter($this->allClasses, fn (ReflectionClass $class) => is_a($class->getName(), $parent, true));
     }
 
+    public function getAllClasses(): iterable
+    {
+        return $this->allClasses;
+    }
+
     public function addClassSource(ClassSource $source): void
     {
         if (class_exists("{$source->namespace}\\{$source->class}")) {

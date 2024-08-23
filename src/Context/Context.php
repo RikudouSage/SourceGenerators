@@ -36,6 +36,11 @@ interface Context
     public function findClassesByParent(string $parent): iterable;
 
     /**
+     * @return iterable<ReflectionClass<object>>
+     */
+    public function getAllClasses(): iterable;
+
+    /**
      * You can use %className% in the $content, and it will be replaced with the class name you provide in $name.
      *
      * @throws ClassExistsException
