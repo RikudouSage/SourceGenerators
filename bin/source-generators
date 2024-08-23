@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+
+<?php
+
+use Composer\Factory;
+use Rikudou\SourceGenerators\Processor\SourceGeneratorProcessorFactory;
+
+require_once $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
+
+$processor = SourceGeneratorProcessorFactory::fromComposerJson(Factory::getComposerFile());
+$processor->execute();
+$processor->autoloadManager->registerAutoloader();

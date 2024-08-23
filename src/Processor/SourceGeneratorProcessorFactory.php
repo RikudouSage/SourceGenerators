@@ -8,9 +8,6 @@ use Rikudou\SourceGenerators\Exception\IOException;
 use Rikudou\SourceGenerators\Extractor\Psr4Rule;
 use SplFileInfo;
 
-/**
- * @internal
- */
 final readonly class SourceGeneratorProcessorFactory
 {
     public static function fromComposerJson(string $pathToComposer): SourceGeneratorProcessor

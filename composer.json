@@ -18,5 +18,8 @@
   },
   "require-dev": {
     "composer/composer": "^2.7"
-  }
+  },
+  "bin": [
+    "bin/source-generators"
+  ]
 }
