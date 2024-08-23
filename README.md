@@ -6,6 +6,8 @@ at build-time and thus save on processing power in the runtime.
 And most importantly, it makes it possible for 3rd party packages to do so, meaning a 3rd party package may create a 
 source generator for all instances of an interface or for all classes annotated by an attribute.
 
+After reading the guide below, you might be interested in the [advanced usage](doc/advanced.md).
+
 ## Installing
 
 `composer require rikudou/source-generators`
