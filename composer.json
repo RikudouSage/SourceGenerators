@@ -17,7 +17,10 @@
     "rikudou/iterables": "^1.0"
   },
   "require-dev": {
-    "composer/composer": "^2.7"
+    "composer/composer": "^2.7",
+    "phpstan/phpstan": "^1.11",
+    "friendsofphp/php-cs-fixer": "^3.63",
+    "rector/rector": "^1.2"
   },
   "bin": [
     "bin/source-generators"

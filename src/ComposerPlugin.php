@@ -9,6 +9,7 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Override;
 use Rikudou\SourceGenerators\Processor\SourceGeneratorProcessor;
 use Rikudou\SourceGenerators\Processor\SourceGeneratorProcessorFactory;
 
@@ -22,24 +23,28 @@ final class ComposerPlugin implements PluginInterface, EventSubscriberInterface
     private Composer $composer;
     private IOInterface $io;
 
+    #[Override]
     public function activate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
         $this->io = $io;
     }
 
+    #[Override]
     public function deactivate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
         $this->io = $io;
     }
 
+    #[Override]
     public function uninstall(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
         $this->io = $io;
     }
 
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         return [

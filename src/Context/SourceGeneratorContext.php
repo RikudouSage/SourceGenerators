@@ -2,6 +2,7 @@
 
 namespace Rikudou\SourceGenerators\Context;
 
+use Override;
 use PhpParser\Modifiers;
 use PhpParser\Node\Expr;
 use ReflectionClass;
@@ -61,26 +62,31 @@ final class SourceGeneratorContext implements Context
     ) {
     }
 
+    #[Override]
     public function getPartialClasses(): iterable
     {
         return $this->partialClasses;
     }
 
+    #[Override]
     public function findClassesByAttribute(string $attribute): iterable
     {
         return Iterables::filter($this->allClasses, fn (ReflectionClass $class) => count($class->getAttributes($attribute)) > 0);
     }
 
+    #[Override]
     public function findClassesByParent(string $parent): iterable
     {
         return Iterables::filter($this->allClasses, fn (ReflectionClass $class) => is_a($class->getName(), $parent, true));
     }
 
+    #[Override]
     public function getAllClasses(): iterable
     {
         return $this->allClasses;
     }
 
+    #[Override]
     public function findClass(string $class): ?ReflectionClass
     {
         if (class_exists($class)) {
@@ -90,6 +96,7 @@ final class SourceGeneratorContext implements Context
         return null;
     }
 
+    #[Override]
     public function addClassSource(ClassSource $source): void
     {
         if (class_exists("{$source->namespace}\\{$source->class}")) {
@@ -99,6 +106,7 @@ final class SourceGeneratorContext implements Context
         $this->newSources[] = $source;
     }
 
+    #[Override]
     public function implementPartialClassMethod(MethodImplementation $implementation): void
     {
         $fqn = "{$implementation->class}::{$implementation->name}";
@@ -119,6 +127,7 @@ final class SourceGeneratorContext implements Context
         $this->implementedMethods[] = $implementation;
     }
 
+    #[Override]
     public function createPartialClassProperty(PropertyImplementation $implementation): void
     {
         $fqn = "{$implementation->class}::\${$implementation->name}";
@@ -144,6 +153,7 @@ final class SourceGeneratorContext implements Context
         $this->implementedProperties[] = $implementation;
     }
 
+    #[Override]
     public function markClassAsImplemented(string $className): void
     {
         $this->newlyImplemented[$className] = $this->sourceGenerator;

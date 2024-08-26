@@ -32,7 +32,7 @@ final readonly class SourceGeneratorProcessorFactory
             );
 
             $vendorDirectory = $json['config']['vendor-dir'] ?? 'vendor';
-            if (!str_starts_with($vendorDirectory, '/')) {
+            if (!str_starts_with((string) $vendorDirectory, '/')) {
                 $vendorDirectory = "{$directory}/{$vendorDirectory}";
             }
 
@@ -55,7 +55,7 @@ final readonly class SourceGeneratorProcessorFactory
                 }
             }
 
-            $autoloaderRegistrar = function (string $file) use ($vendorDirectory) {
+            $autoloaderRegistrar = function (string $file) use ($vendorDirectory): void {
                 $originalAutoloadFile = "{$vendorDirectory}/autoload.php";
                 if (!file_exists($originalAutoloadFile)) {
                     throw new IOException('Could not find autoload.php file');
