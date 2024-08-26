@@ -11,7 +11,6 @@ use PhpParser\Node\ArrayItem;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\Cast\Bool_;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\Match_;
 use PhpParser\Node\Expr\MethodCall;
@@ -25,7 +24,6 @@ use PhpParser\Node\Scalar\Float_;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Return_;
-use PhpParser\Node\Stmt\Switch_;
 use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionParameter;
@@ -53,10 +51,10 @@ final readonly class DependencyInjectionSourceGenerator implements SourceGenerat
             new MatchArm(
                 [new Name('default')],
                 new Throw_(new New_(new Name\FullyQualified(LogicException::class), [
-                    new Concat(
+                    new Arg(new Concat(
                         new String_('Could not find a service with the name '),
                         new Variable('service'),
-                    )
+                    ))
                 ])),
             ),
         ]);
@@ -80,6 +78,7 @@ final readonly class DependencyInjectionSourceGenerator implements SourceGenerat
 
         $containerClass = (new Class_('%className%'))
             ->makeFinal()
+            ->makeReadonly()
             ->addStmt((new Method('__construct'))->makePrivate())
             ->addStmt(
                 (new Method('create'))

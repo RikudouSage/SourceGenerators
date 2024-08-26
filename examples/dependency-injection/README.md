@@ -11,7 +11,7 @@ container like this:
 declare (strict_types=1);
 namespace App\DependencyInjection;
 
-final class DependencyContainer
+final readonly class DependencyContainer
 {
     private function __construct()
     {
