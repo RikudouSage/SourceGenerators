@@ -54,6 +54,10 @@ final class ComposerPlugin implements PluginInterface, EventSubscriberInterface
 
     public function postAutoloadDump(Event $event): void
     {
+        $enabled = $this->composer->getPackage()->getExtra()['source-generators']['enabled'] ?? true;
+        if (!$enabled) {
+            return;
+        }
         $processor = $this->getProcessor();
         $processor->execute();
         $processor->autoloadManager->registerAutoloader();
