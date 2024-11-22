@@ -8,5 +8,5 @@ return RectorConfig::configure()
     ->withPaths([
         __DIR__ . '/src',
     ])
-    ->withPhpSets()
+    ->withPhpSets(php84: true)
     ->withTypeCoverageLevel(0);

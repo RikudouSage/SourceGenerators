@@ -21,27 +21,23 @@ final class ComposerPlugin implements PluginInterface, EventSubscriberInterface
     private ?SourceGeneratorProcessor $processor = null;
 
     private Composer $composer;
-    private IOInterface $io;
 
     #[Override]
     public function activate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
-        $this->io = $io;
     }
 
     #[Override]
     public function deactivate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
-        $this->io = $io;
     }
 
     #[Override]
     public function uninstall(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
-        $this->io = $io;
     }
 
     #[Override]
