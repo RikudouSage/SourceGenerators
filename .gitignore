@@ -3,3 +3,5 @@
 /.idea
 /impl
 /test.php
+/.phpunit.cache
+/coverage

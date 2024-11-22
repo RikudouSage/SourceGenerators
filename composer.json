@@ -7,6 +7,11 @@
       "Rikudou\\SourceGenerators\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Rikudou\\Tests\\SourceGenerators\\": "tests/"
+    }
+  },
   "extra": {
     "class": "\\Rikudou\\SourceGenerators\\ComposerPlugin"
   },
@@ -20,7 +25,8 @@
     "composer/composer": "^2.7",
     "phpstan/phpstan": "^1.11",
     "friendsofphp/php-cs-fixer": "^3.63",
-    "rector/rector": "^1.2"
+    "rector/rector": "^1.2",
+    "phpunit/phpunit": "^11.4"
   },
   "bin": [
     "bin/source-generators"
