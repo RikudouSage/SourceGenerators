@@ -3,8 +3,15 @@
 namespace Rikudou\SourceGenerators\Service;
 
 use DirectoryIterator;
+use PhpParser\Node;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
+use PhpParser\NodeVisitorAbstract;
+use PhpParser\Parser;
+use PhpParser\ParserFactory;
 use Rikudou\SourceGenerators\Extractor\Psr4Rule;
 use SplFileInfo;
+use Throwable;
 
 /**
  * @internal
@@ -12,6 +19,7 @@ use SplFileInfo;
 final readonly class SourceClassMapManager
 {
     public array $classMap;
+    private Parser $parser;
 
     /**
      * @param array<Psr4Rule> $psr4Rules
@@ -19,6 +27,7 @@ final readonly class SourceClassMapManager
     public function __construct(
         array $psr4Rules,
     ) {
+        $this->parser = (new ParserFactory())->createForHostVersion();
         $classMap = [];
         foreach ($psr4Rules as $psr4Rule) {
             if (!is_dir($psr4Rule->directory)) {
@@ -51,10 +60,39 @@ final readonly class SourceClassMapManager
         }
 
         $className = $namespace . '\\' . $file->getBasename('.php');
-        if (!class_exists($className)) {
-            return;
-        }
 
-        $classMap[$file->getRealPath()] = $namespace . '\\' . $file->getBasename('.php');
+        $ast = $this->parser->parse(file_get_contents($file->getRealPath()));
+
+        $traverser = new NodeTraverser(
+            new NameResolver(),
+            new class ($className, $classMap, $file) extends NodeVisitorAbstract
+            {
+                public function __construct(
+                    private readonly string $expectedClassName,
+                    private array &$classMap,
+                    private readonly SplFileInfo $file,
+                ) {
+                }
+
+                public function enterNode(Node $node): void
+                {
+                    if (!$node instanceof Node\Stmt\Class_) {
+                        return;
+                    }
+
+                    try {
+                        if (
+                            (string) $node->namespacedName === $this->expectedClassName
+                            && class_exists($this->expectedClassName)
+                        ) {
+                            $this->classMap[$this->file->getRealPath()] = $this->expectedClassName;
+                        }
+                    } catch (Throwable) {
+                        // ignore
+                    }
+                }
+            }
+        );
+        $traverser->traverse($ast);
     }
 }

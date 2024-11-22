@@ -22,24 +22,36 @@ final class ComposerPlugin implements PluginInterface, EventSubscriberInterface
 
     private Composer $composer;
 
+    /**
+     * @codeCoverageIgnore
+     */
     #[Override]
     public function activate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     #[Override]
     public function deactivate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     #[Override]
     public function uninstall(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     #[Override]
     public static function getSubscribedEvents(): array
     {

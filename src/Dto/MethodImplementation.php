@@ -15,6 +15,7 @@ final readonly class MethodImplementation
      * @param class-string $class
      * @param string|array<Stmt> $body
      * @param array<string|Param>|null $parameters
+     * @codeCoverageIgnore
      */
     public function __construct(
         public string       $class,

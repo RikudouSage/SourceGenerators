@@ -8,6 +8,7 @@ final readonly class ClassSource
 {
     /**
      * @param string|array<Stmt> $content
+     * @codeCoverageIgnore
      */
     public function __construct(
         public string       $class,

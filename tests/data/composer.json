@@ -1,0 +1,14 @@
+{
+  "name": "rikudou/source-generators-test-project",
+  "autoload": {
+    "psr-4": {
+      "Rikudou\\SourceGenerators\\": "src/"
+    }
+  },
+  "require": {
+    "composer-plugin-api": "^2.0",
+    "nikic/php-parser": "^5.1",
+    "rikudou/iterables": "^1.0",
+    "composer/composer": "^2.7"
+  }
+}

@@ -11,6 +11,7 @@ final readonly class PropertyImplementation
     /**
      * @param class-string $class
      * @param Expr|null|string|bool|int|float|array<mixed> $defaultValue
+     * @codeCoverageIgnore
      */
     public function __construct(
         public string                                $class,
