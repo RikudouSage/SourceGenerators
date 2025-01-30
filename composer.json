@@ -19,7 +19,8 @@
     "php": "^8.3",
     "composer-plugin-api": "^2.0",
     "nikic/php-parser": "^5.1",
-    "rikudou/iterables": "^1.0"
+    "rikudou/iterables": "^1.0",
+    "symfony/polyfill-php84": "^1.0"
   },
   "require-dev": {
     "composer/composer": "^2.7",

@@ -233,7 +233,7 @@ instead of trying to mash multiple strings together and get lost in the process.
 
 ## So what all can this do?
 
-The sky is the limit, as they say. In .NET world you can use [source generators to serialize and deserialize classes and jsons without using any runtime reflection](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/source-generation?pivots=dotnet-8-0).
+The sky is the limit, as they say. You can use [source generators to serialize and deserialize classes and jsons without using any runtime reflection](examples/serialization).
 You can use it to [create a collection of all classes implementing a certain interface](examples/collection).
 You can create a [`Memoizable` attribute that automatically creates proxies](https://github.com/RikudouSage/SymfonyMemoizeBundle) for all classes marked as such and memoizes the result of the method calls.
 You can create a [very efficient dependency injection](examples/dependency-injection).
