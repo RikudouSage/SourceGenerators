@@ -44,6 +44,9 @@ final readonly class SourceGeneratorProcessorFactory
                         true,
                         flags: JSON_THROW_ON_ERROR,
                     );
+                    if (!$composerJson['extra']['source-generators']['enabled'] ?? false) {
+                        continue;
+                    }
                     $psr4Rules = [
                         ...$psr4Rules,
                         ...array_map(
