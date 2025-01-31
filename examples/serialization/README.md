@@ -99,6 +99,34 @@ final readonly class ObjectToSerializeSerializationProvider implements \App\Seri
 }
 ```
 
+```php
+<?php
+
+declare (strict_types=1);
+namespace App;
+
+final readonly class AnotherObjectToSerializeSerializationProvider implements \App\SerializationProvider
+{
+    public function serialize(object $object): array
+    {
+        if (!$object instanceof \App\AnotherObjectToSerialize) {
+            throw new \LogicException('This provider only supports instances of \'App\AnotherObjectToSerialize\', ' . get_debug_type($object) . ' given');
+        }
+        return [
+            'value1' => $object->value1,
+            'value2' => $object->value2,
+        ];
+    }
+    public function deserialize(array $data): \App\AnotherObjectToSerialize
+    {
+        return new \App\AnotherObjectToSerialize(
+            value1: $data['value1'] ?? throw new \InvalidArgumentException('The \'value1\' key is required when deserializing objects of type \'App\AnotherObjectToSerialize\''),
+            value2: $data['value2'] ?? throw new \InvalidArgumentException('The \'value2\' key is required when deserializing objects of type \'App\AnotherObjectToSerialize\''),
+        );
+    }
+}
+```
+
 And the class [JsonSerializer](JsonSerializer.php) has only the following method implemented by a source generator,
 everything else stays the same as in the original:
 
@@ -109,5 +137,6 @@ everything else stays the same as in the original:
     private function getProviders(): iterable
     {
         yield 'App\ObjectToSerialize' => new \App\ObjectToSerializeSerializationProvider();
+        yield 'App\AnotherObjectToSerialize' => new \App\AnotherObjectToSerializeSerializationProvider();
     }
 ```
