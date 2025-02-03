@@ -97,9 +97,9 @@ final class SourceGeneratorContext implements Context
     }
 
     #[Override]
-    public function addClassSource(ClassSource $source): void
+    public function addClassSource(ClassSource $source, bool $allowOverwrite = false): void
     {
-        if (class_exists("{$source->namespace}\\{$source->class}")) {
+        if (!$allowOverwrite && class_exists("{$source->namespace}\\{$source->class}")) {
             throw new ClassExistsException("The class {$source->namespace}\\{$source->class} already exists. If you're trying to implement a partial class, don't use addClassSource(), that's for adding entirely new sources.");
         }
 

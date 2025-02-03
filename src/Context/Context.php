@@ -53,7 +53,7 @@ interface Context
      *
      * @throws ClassExistsException
      */
-    public function addClassSource(ClassSource $source): void;
+    public function addClassSource(ClassSource $source, bool $allowOverwrite = false): void;
 
     /**
      * @throws NonPartialMethodException
