@@ -16,26 +16,34 @@ use Throwable;
 /**
  * @internal
  */
-final readonly class SourceClassMapManager
+final class SourceClassMapManager
 {
-    public array $classMap;
-    private Parser $parser;
+    private ?array $classMap;
+    private readonly Parser $parser;
 
     /**
      * @param array<Psr4Rule> $psr4Rules
      */
     public function __construct(
-        array $psr4Rules,
+        private readonly array $psr4Rules,
     ) {
         $this->parser = (new ParserFactory())->createForHostVersion();
-        $classMap = [];
-        foreach ($psr4Rules as $psr4Rule) {
-            if (!is_dir($psr4Rule->directory)) {
-                continue;
+    }
+
+    public function getClassMap(): array
+    {
+        if ($this->classMap === null) {
+            $classMap = [];
+            foreach ($this->psr4Rules as $psr4Rule) {
+                if (!is_dir($psr4Rule->directory)) {
+                    continue;
+                }
+                $this->parseDirectory($classMap, $psr4Rule->directory, trim($psr4Rule->namespace, '\\'));
             }
-            $this->parseDirectory($classMap, $psr4Rule->directory, trim($psr4Rule->namespace, '\\'));
+            $this->classMap = $classMap;
         }
-        $this->classMap = $classMap;
+
+        return $this->classMap;
     }
 
     private function parseDirectory(array &$classMap, string $directory, string $namespace): void

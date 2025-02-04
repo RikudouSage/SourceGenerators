@@ -50,7 +50,7 @@ final readonly class SourceGeneratorProcessor
 
         /** @var array<class-string<SourceGenerator>> $sourceGenerators */
         $sourceGenerators = array_filter(
-            $this->sourceClassMapManager->classMap,
+            $this->sourceClassMapManager->getClassMap(),
             fn (string $class) => is_a($class, SourceGenerator::class, true),
         );
 
@@ -63,7 +63,7 @@ final readonly class SourceGeneratorProcessor
                     return null;
                 }
             },
-            $this->sourceClassMapManager->classMap,
+            $this->sourceClassMapManager->getClassMap(),
         ));
 
         $partialClasses = array_filter(
