@@ -2,12 +2,28 @@
 
 <?php
 
-use Composer\Factory;
 use Rikudou\SourceGenerators\Processor\SourceGeneratorProcessorFactory;
 
 require_once $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 
-$processor = SourceGeneratorProcessorFactory::fromComposerJson(Factory::getComposerFile());
+$potentialComposerPaths = [
+    __DIR__ . '/../../../composer.json',
+    __DIR__ . '/../composer.json',
+];
+
+$foundComposerJson = null;
+foreach ($potentialComposerPaths as $potentialComposerPath) {
+    if (file_exists($potentialComposerPath)) {
+        $foundComposerJson = $potentialComposerPath;
+        break;
+    }
+}
+
+if (!$foundComposerJson) {
+    throw new RuntimeException('Could not find composer.json');
+}
+
+$processor = SourceGeneratorProcessorFactory::fromComposerJson($foundComposerJson);
 $processor->execute();
 $processor->autoloadManager->registerAutoloader();
 
