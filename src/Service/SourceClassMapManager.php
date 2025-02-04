@@ -18,7 +18,7 @@ use Throwable;
  */
 final class SourceClassMapManager
 {
-    private ?array $classMap;
+    private ?array $classMap = null;
     private readonly Parser $parser;
 
     /**
