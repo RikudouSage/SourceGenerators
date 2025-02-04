@@ -5,7 +5,7 @@
 Usually the package hooks into Composer and runs your source generator automatically. If you want to run them manually
 you have two options:
 
-- run `vendor/bin/source-generators`
+- trigger composer autoload dump by running `composer dump-autoload`
 - manually call the source generator handler
 
 ### Calling the source generators manually
