@@ -32,6 +32,14 @@ jobs:
         include:
           - package: unleash/client
             extra: [guzzlehttp/guzzle, symfony/cache]
+          - package: rikudou/lemmy-api
+            extra: [guzzlehttp/guzzle]
+          - package: rikudou/unleash-sdk
+            extra: [guzzlehttp/guzzle, symfony/cache]
+          - package: rikudou/friend-classes
+            allow_plugin: true
+          - package: rikudou/qr-payment-bundle
+            allow_plugin: true
         package: ${{ fromJson(needs.fetch-packages.outputs.matrix) }}
     steps:
       - name: Checkout repository
@@ -48,7 +56,9 @@ jobs:
           echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
           
-          package_name="${{ matrix.package }}"
+          if [ -n "${{ matrix.allow_plugin}}" ]; then
+            composer config --no-plugins allow-plugins.${{ matrix.package }} true
+          fi
           
           set +e
           output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master $EXTRA_DEPS --no-interaction --no-progress 2>&1)
@@ -56,6 +66,10 @@ jobs:
           set -e
           
           if echo "$output" | grep -q "has requirements incompatible with your PHP version"; then
+            echo "::notice title=Skipping::${{ matrix.package }} due to incompatible PHP version."
+            exit 0
+          fi
+          if echo "$output" | grep -q "in any version matching your PHP version, PHP extensions and Composer version"; then
             echo "::notice title=Skipping::${{ matrix.package }} due to incompatible PHP version."
             exit 0
           fi
