@@ -29,6 +29,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        include:
+          - package: unleash/client
+            extra: [guzzlehttp/guzzle, symfony/cache]
         package: ${{ fromJson(needs.fetch-packages.outputs.matrix) }}
 
     steps:
@@ -44,8 +47,11 @@ jobs:
           echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
           
+          package_name="${{ matrix.package }}"
+          extra_deps="${{ join(' ', matrix.extra) }}"
+          
           set +e
-          output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master --no-interaction --no-progress 2>&1)
+          output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master $extra_deps --no-interaction --no-progress 2>&1)
           exit_code=$?
           set -e
           
