@@ -45,15 +45,16 @@ jobs:
           php-version: '8.4'
           tools: composer
       - name: Create temporary project
+        env:
+          EXTRA_DEPS: ${{ join(' ', matrix.extra) }}
         run: |
           echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
           
           package_name="${{ matrix.package }}"
-          extra_deps="${{ join(' ', matrix.extra) }}"
           
           set +e
-          output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master $extra_deps --no-interaction --no-progress 2>&1)
+          output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master $EXTRA_DEPS --no-interaction --no-progress 2>&1)
           exit_code=$?
           set -e
           
