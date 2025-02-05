@@ -39,8 +39,8 @@ jobs:
           tools: composer
       - name: Create temporary project
         run: |
-          composer create-project --no-interaction --no-progress --prefer-dist ${{ matrix.package }} temp_project
-          cd temp_project
+          echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
+          composer require ${{ matrix.package }}
           composer require rikudou/source-generators:dev-master --no-interaction --no-progress
           vendor/bin/source-generators
