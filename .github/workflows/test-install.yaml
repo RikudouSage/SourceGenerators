@@ -16,8 +16,9 @@ jobs:
         run: |
           curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '.packages[].name' > popular.txt
           curl -s "https://packagist.org/packages/list.json?vendor=rikudou" | jq -r '.packageNames[]' > rikudou.txt
+          curl -s "https://packagist.org/packages/list.json?vendor=unleash" | jq -r '.packageNames[]' > unleash.txt
           
-          cat popular.txt rikudou.txt | sort -u | jq -R -s -c 'split("\n")[:-1]' > packages.json
+          cat popular.txt rikudou.txt unleash.txt | sort -u | jq -R -s -c 'split("\n")[:-1]' > packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
           cat packages.json
 
@@ -36,7 +37,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           tools: composer
       - name: Create temporary project
         run: |
