@@ -6,7 +6,7 @@ on:
 
 jobs:
   fetch-packages:
-    name: Fetch popular packages
+    name: Fetch packages to test
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.packages }}
@@ -44,11 +44,23 @@ jobs:
           echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
           
-          output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master --no-interaction --no-progress 2>&1) || true
+          set +e
+          output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master --no-interaction --no-progress 2>&1)
+          exit_code=$?
+          set -e
           
           if echo "$output" | grep -q "has requirements incompatible with your PHP version"; then
-            echo "Skipping ${{ matrix.package }} due to incompatible PHP version."
+            echo "::notice title=Skipping::${{ matrix.package }} due to incompatible PHP version."
+            exit 0
+          fi
+          if echo "$output" | grep -q "matching your minimum-stability (stable)"; then
+            echo "::notice title=Skipping ${{ matrix.package }} because it has no stable version."
             exit 0
           fi
           
-          vendor/bin/source-generators
+          echo "$output"
+          if [ $exit_code -ne 0 ]; then
+            exit $exit_code
+          fi
+      - name: Run source generators
+        run: vendor/bin/source-generators
