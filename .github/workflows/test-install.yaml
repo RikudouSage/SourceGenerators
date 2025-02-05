@@ -8,6 +8,10 @@ jobs:
   fetch-packages:
     name: Fetch packages to test
     runs-on: ubuntu-latest
+    env:
+      EXCLUDED: |
+        rikudou/qr-payment-bundle
+        rikudou/redis-helper
     outputs:
       matrix: ${{ steps.set-matrix.outputs.packages }}
     steps:
@@ -18,9 +22,12 @@ jobs:
           curl -s "https://packagist.org/packages/list.json?vendor=rikudou" | jq -r '.packageNames[]' > rikudou.txt
           curl -s "https://packagist.org/packages/list.json?vendor=unleash" | jq -r '.packageNames[]' > unleash.txt
           
-          cat popular.txt rikudou.txt unleash.txt | sort -u | jq -R -s -c 'split("\n")[:-1]' > packages.json
+          cat popular.txt rikudou.txt unleash.txt | sort -u > merged.txt
+          echo "$EXCLUDED" > excluded.txt
+          grep -Fxvf excluded.txt merged.txt > filtered.txt
+          
+          jq -R -s -c 'split("\n")[:-1]' filtered.txt > packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
-          cat packages.json
 
   test-install:
     name: Test installation
