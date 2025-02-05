@@ -12,6 +12,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.packages }}
     steps:
       - name: Fetch package list
+        id: set-matrix
         run: |
           curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '.packages[].name' > popular.txt
           curl -s "https://packagist.org/packages/list.json?vendor=rikudou" | jq -r '.packageNames[]' > rikudou.txt
