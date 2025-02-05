@@ -47,7 +47,7 @@ final readonly class HelloWorldSourceGenerator implements SourceGenerator
 
 > Note: %className% gets replaced with the actual class name automatically
 
-Next time, when you dump the composer autoloader (by using `composer dump-autoload` or `composer install`), every class
+Next time, when you run `composer install`, every class
 implementing `SourceGenerator` (including the `HelloWorldSourceGenerator` defined above) will run and the class will
 get generated.
 
@@ -118,7 +118,7 @@ final class HelloWorld
 }
 ```
 
-If you'd run `composer install` or `composer dump-autoload` right now, you would get `UnimplementedPartialClassException`
+If you'd run `composer install` right now, you would get `UnimplementedPartialClassException`
 saying: `The class 'App\HelloWorld' is partial and must be implemented by a source generator.`. So let's create one!
 
 ```php

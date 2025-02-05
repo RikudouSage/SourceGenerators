@@ -56,11 +56,11 @@ final class ComposerPlugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ScriptEvents::POST_AUTOLOAD_DUMP => 'postAutoloadDump',
+            ScriptEvents::POST_INSTALL_CMD => 'postAutoloadDump',
         ];
     }
 
-    public function postAutoloadDump(Event $event): void
+    public function postInstall(Event $event): void
     {
         $enabled = $this->composer->getPackage()->getExtra()['source-generators']['enabled'] ?? true;
         if (!$enabled) {

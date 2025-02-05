@@ -41,7 +41,7 @@ final class ComposerPluginTest extends TestCase
             io: $io
         );
 
-        $instance->postAutoloadDump($event);
+        $instance->postInstall($event);
         self::assertFileExists(__DIR__ . '/Data/vendor/autoload.php');
         self::assertFileExists(__DIR__ . '/Data/vendor/source-generators/__source_generators_autoloader.php');
 
@@ -70,7 +70,7 @@ final class ComposerPluginTest extends TestCase
         $instance = new ComposerPlugin();
         $instance->activate($composer, $io);
 
-        $instance->postAutoloadDump($event);
+        $instance->postInstall($event);
         self::assertFileDoesNotExist(__DIR__ . '/Data/vendor/autoload.php');
         self::assertFileDoesNotExist(__DIR__ . '/Data/vendor/source-generators/__source_generators_autoloader.php');
     }
