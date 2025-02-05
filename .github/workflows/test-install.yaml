@@ -41,6 +41,5 @@ jobs:
         run: |
           echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
-          composer require ${{ matrix.package }}
-          composer require rikudou/source-generators:dev-master --no-interaction --no-progress
+          composer require ${{ matrix.package }} rikudou/source-generators:dev-master --no-interaction --no-progress
           vendor/bin/source-generators
