@@ -1,0 +1,45 @@
+name: Test install on popular packages
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  fetch-packages:
+    name: Fetch popular packages
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.packages }}
+    steps:
+      - name: Fetch package list
+        run: |
+          curl -s "https://packagist.org/explore/popular.json?per_page=5" | jq -r '[.packages[].name] | @json' > packages.json
+
+      - name: Set matrix output
+        id: set-matrix
+        run: |
+          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
+
+  test-install:
+    name: Test installation
+    needs: fetch-packages
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.fetch-packages.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+      - name: Create temporary project
+        run: |
+          composer create-project --no-interaction --no-progress --prefer-dist ${{ matrix.package }} temp_project
+          cd temp_project
+          composer config allow-plugins.rikudou/source-generators true
+          composer require rikudou/source-generators --no-interaction --no-progress
