@@ -43,5 +43,12 @@ jobs:
         run: |
           echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
-          composer require ${{ matrix.package }} rikudou/source-generators:dev-master --no-interaction --no-progress
+          
+          output=$(composer require ${{ matrix.package }} rikudou/source-generators:dev-master --no-interaction --no-progress 2>&1) || true
+          
+          if echo "$output" | grep -q "has requirements incompatible with your PHP version"; then
+            echo "Skipping ${{ matrix.package }} due to incompatible PHP version."
+            exit 0
+          fi
+          
           vendor/bin/source-generators
