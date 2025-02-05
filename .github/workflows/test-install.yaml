@@ -13,10 +13,10 @@ jobs:
     steps:
       - name: Fetch package list
         run: |
-          curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '[.packages[].name] | @json' > popular.json
-          curl -s "https://packagist.org/packages/list.json?vendor=rikudou" | jq -r '[.packageNames[]]' > rikudou.json
+          curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '.packages[].name' > popular.txt
+          curl -s "https://packagist.org/packages/list.json?vendor=rikudou" | jq -r '.packageNames[]' > rikudou.txt
           
-          jq -c 'unique' popular.json rikudou.json > packages.json
+          cat popular.txt rikudou.txt | sort -u | jq -R -s -c 'split("\n")[:-1]' > packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
   test-install:
