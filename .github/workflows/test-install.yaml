@@ -33,8 +33,10 @@ jobs:
           - package: unleash/client
             extra: [guzzlehttp/guzzle, symfony/cache]
         package: ${{ fromJson(needs.fetch-packages.outputs.matrix) }}
-
     steps:
+      - name: Debug matrix.extra
+        run: |
+          echo "Extra deps: '${{ toJson(matrix.extra) }}'"
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up PHP
