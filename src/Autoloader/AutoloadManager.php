@@ -47,6 +47,10 @@ final readonly class AutoloadManager
                 return;
             }
             
+            if (\$_ENV['RIKUDOU_SOURCE_GENERATORS_IN_PROGRESS'] ?? false) {
+                return;
+            }
+            
             require_once(\$rikudouSourceGeneratorsClassMap[\$className]);
         }, prepend: true);
         EOF;

@@ -6,6 +6,7 @@ Usually the package hooks into Composer and runs your source generator automatic
 you have two options:
 
 - trigger composer install by running `composer install`
+- run the `vendor/bin/source-generators` script
 - manually call the source generator handler
 
 ### Calling the source generators manually

@@ -46,57 +46,63 @@ final readonly class SourceGeneratorProcessor
 
     public function execute(): void
     {
-        $this->directoryManager->prepare();
+        $_ENV['RIKUDOU_SOURCE_GENERATORS_IN_PROGRESS'] = true;
 
-        /** @var array<class-string<SourceGenerator>> $sourceGenerators */
-        $sourceGenerators = array_filter(
-            $this->sourceClassMapManager->getClassMap(),
-            fn (string $class) => is_a($class, SourceGenerator::class, true),
-        );
+        try {
+            $this->directoryManager->prepare();
 
-        /** @var ReflectionClass[] $reflections */
-        $reflections = array_filter(array_map(
-            function (string $class) {
-                try {
-                    return new ReflectionClass($class);
-                } catch (ReflectionException) {
-                    return null;
-                }
-            },
-            $this->sourceClassMapManager->getClassMap(),
-        ));
+            /** @var array<class-string<SourceGenerator>> $sourceGenerators */
+            $sourceGenerators = array_filter(
+                $this->sourceClassMapManager->getClassMap(),
+                fn (string $class) => is_a($class, SourceGenerator::class, true),
+            );
 
-        $partialClasses = array_filter(
-            $reflections,
-            fn (ReflectionClass $reflection) => count($reflection->getAttributes(PartialClass::class)) > 0,
-        );
+            /** @var ReflectionClass[] $reflections */
+            $reflections = array_filter(array_map(
+                function (string $class) {
+                    try {
+                        return new ReflectionClass($class);
+                    } catch (ReflectionException) {
+                        return null;
+                    }
+                },
+                $this->sourceClassMapManager->getClassMap(),
+            ));
+
+            $partialClasses = array_filter(
+                $reflections,
+                fn (ReflectionClass $reflection) => count($reflection->getAttributes(PartialClass::class)) > 0,
+            );
 
 
-        /** @var array<string, class-string> $implemented */
-        $implemented = [];
-        $newSources = [];
-        $propertyImplementations = [];
-        $methodImplementations = [];
-        $classImplementations = [];
+            /** @var array<string, class-string> $implemented */
+            $implemented = [];
+            $newSources = [];
+            $propertyImplementations = [];
+            $methodImplementations = [];
+            $classImplementations = [];
 
-        foreach ($sourceGenerators as $sourceGenerator) {
-            $context = new SourceGeneratorContext($partialClasses, $implemented, $sourceGenerator, $reflections);
-            $instance = new $sourceGenerator;
-            $instance->execute($context);
-            $implemented = array_merge($implemented, $context->getNewlyImplemented());
+            foreach ($sourceGenerators as $sourceGenerator) {
+                $context = new SourceGeneratorContext($partialClasses, $implemented, $sourceGenerator, $reflections);
+                $instance = new $sourceGenerator;
+                $instance->execute($context);
+                $implemented = array_merge($implemented, $context->getNewlyImplemented());
 
-            $newSources = [...$newSources, ...$context->getNewSources()];
-            $propertyImplementations = [...$propertyImplementations, ...$context->getImplementedProperties()];
-            $methodImplementations = [...$methodImplementations, ...$context->getImplementedMethods()];
-            $classImplementations = [...$classImplementations, ...$context->getImplementedClasses()];
+                $newSources = [...$newSources, ...$context->getNewSources()];
+                $propertyImplementations = [...$propertyImplementations, ...$context->getImplementedProperties()];
+                $methodImplementations = [...$methodImplementations, ...$context->getImplementedMethods()];
+                $classImplementations = [...$classImplementations, ...$context->getImplementedClasses()];
+            }
+
+            $this->newSourceProcessor->process($newSources);
+            $this->propertyProcessor->process($propertyImplementations);
+            $this->methodProcessor->process($methodImplementations);
+            $this->emptyClassProcessor->process($classImplementations);
+            $this->attributeCleaner->process($partialClasses);
+
+            $this->autoloadManager->dumpCustomAutoloader();
+        } finally {
+            unset($_ENV['RIKUDOU_SOURCE_GENERATORS_IN_PROGRESS']);
         }
-
-        $this->newSourceProcessor->process($newSources);
-        $this->propertyProcessor->process($propertyImplementations);
-        $this->methodProcessor->process($methodImplementations);
-        $this->emptyClassProcessor->process($classImplementations);
-        $this->attributeCleaner->process($partialClasses);
-
-        $this->autoloadManager->dumpCustomAutoloader();
     }
 }
