@@ -45,8 +45,6 @@ jobs:
             extra: [guzzlehttp/guzzle, symfony/cache]
           - package: rikudou/friend-classes
             allow_plugin: true
-          - package: rikudou/qr-payment-bundle
-            allow_plugin: true
         package: ${{ fromJson(needs.fetch-packages.outputs.matrix) }}
     steps:
       - name: Checkout repository
