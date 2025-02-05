@@ -47,7 +47,7 @@ final readonly class HelloWorldSourceGenerator implements SourceGenerator
 
 > Note: %className% gets replaced with the actual class name automatically
 
-Next time, when you run `composer install`, every class
+Next time, when you run `composer install` (or `vendor/bin/source-generators`, every class
 implementing `SourceGenerator` (including the `HelloWorldSourceGenerator` defined above) will run and the class will
 get generated.
 
@@ -67,6 +67,12 @@ final class HelloWorld
     }
 }
 ```
+
+> Tip: On Linux you can use the following command to watch files for changes and run the source generators automatically:
+>
+>`inotifywait -m -r -e modify,create,delete,move src | while read -r path action file; do php vendor/bin/source-generators; done`
+>
+> Just replace `src` with the directory you want to watch.
 
 ## Usage
 
@@ -118,7 +124,7 @@ final class HelloWorld
 }
 ```
 
-If you'd run `composer install` right now, you would get `UnimplementedPartialClassException`
+If you'd run `composer install` (or `vendor/bin/source-generators`) right now, you would get `UnimplementedPartialClassException`
 saying: `The class 'App\HelloWorld' is partial and must be implemented by a source generator.`. So let's create one!
 
 ```php
