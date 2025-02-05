@@ -46,7 +46,7 @@ jobs:
           tools: composer
       - name: Create temporary project
         env:
-          EXTRA_DEPS: ${{ join(' ', matrix.extra) }}
+          EXTRA_DEPS: ${{ join(matrix.extra, ' ') }}
         run: |
           echo "{}" > composer.json
           composer config --no-plugins allow-plugins.rikudou/source-generators true
