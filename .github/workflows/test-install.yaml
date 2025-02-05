@@ -43,3 +43,4 @@ jobs:
           cd temp_project
           composer config --no-plugins allow-plugins.rikudou/source-generators true
           composer require rikudou/source-generators:dev-master --no-interaction --no-progress
+          vendor/bin/source-generators
