@@ -18,6 +18,7 @@ jobs:
           
           cat popular.txt rikudou.txt | sort -u | jq -R -s -c 'split("\n")[:-1]' > packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
+          cat packages.json
 
   test-install:
     name: Test installation
