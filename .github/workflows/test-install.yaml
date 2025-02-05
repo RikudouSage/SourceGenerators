@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Fetch package list
         run: |
-          curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '[.packages[].name] | @json' > packages.json
+          curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '[.packages[].name] | @json' > popular.json
           curl -s "https://packagist.org/packages/list.json?vendor=rikudou" | jq -r '[.packageNames[]]' > rikudou.json
           
           jq -c 'unique' popular.json rikudou.json symfony.json > packages.json
