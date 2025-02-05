@@ -34,9 +34,6 @@ jobs:
             extra: [guzzlehttp/guzzle, symfony/cache]
         package: ${{ fromJson(needs.fetch-packages.outputs.matrix) }}
     steps:
-      - name: Debug matrix.extra
-        run: |
-          echo "Extra deps: '${{ toJson(matrix.extra) }}'"
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up PHP
@@ -44,7 +41,7 @@ jobs:
         with:
           php-version: '8.4'
           tools: composer
-      - name: Create temporary project
+      - name: Test install
         env:
           EXTRA_DEPS: ${{ join(matrix.extra, ' ') }}
         run: |
@@ -71,5 +68,5 @@ jobs:
           if [ $exit_code -ne 0 ]; then
             exit $exit_code
           fi
-      - name: Run source generators
-        run: vendor/bin/source-generators
+          
+          vendor/bin/source-generators
