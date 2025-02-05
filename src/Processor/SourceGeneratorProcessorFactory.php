@@ -68,7 +68,7 @@ final readonly class SourceGeneratorProcessorFactory
 
                 $content = "require_once {$relativeFileName}';" . PHP_EOL;
                 $originalAutoloadFileContent = array_filter(file($originalAutoloadFile), fn (string $line) => (bool) trim($line));
-                if (str_contains($originalAutoloadFileContent, $content)) {
+                if (str_contains(implode("\n", $originalAutoloadFileContent), $content)) {
                     return;
                 }
 
