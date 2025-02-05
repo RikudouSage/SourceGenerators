@@ -14,10 +14,6 @@ jobs:
       - name: Fetch package list
         run: |
           curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '[.packages[].name] | @json' > packages.json
-
-      - name: Set matrix output
-        id: set-matrix
-        run: |
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
   test-install:
