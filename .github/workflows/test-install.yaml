@@ -41,5 +41,5 @@ jobs:
         run: |
           composer create-project --no-interaction --no-progress --prefer-dist ${{ matrix.package }} temp_project
           cd temp_project
-          composer config allow-plugins.rikudou/source-generators:dev-master true
+          composer config --no-plugins allow-plugins.rikudou/source-generators true
           composer require rikudou/source-generators --no-interaction --no-progress
