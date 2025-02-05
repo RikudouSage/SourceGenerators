@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Fetch package list
         run: |
-          curl -s "https://packagist.org/explore/popular.json?per_page=20" | jq -r '[.packages[].name] | @json' > packages.json
+          curl -s "https://packagist.org/explore/popular.json?per_page=100" | jq -r '[.packages[].name] | @json' > packages.json
 
       - name: Set matrix output
         id: set-matrix
